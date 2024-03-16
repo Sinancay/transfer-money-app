@@ -4,7 +4,7 @@ const host = "http://localhost:8080/api/";
 let token = localStorage.getItem('token');
 
 
-export async function ApiFunction(url: string, data: {}, method: 'get' | 'post' | 'put' | 'delete', userOperation: boolean)  {
+export async function ApiFunction(url: string, data: any, method: 'get' | 'post' | 'put' | 'delete', userOperation: boolean)  {
         try {
           let response;
           if(userOperation){
@@ -18,7 +18,7 @@ export async function ApiFunction(url: string, data: {}, method: 'get' | 'post' 
                 }
                  
              }
-              if(url.includes("-")){
+              if(url.includes("-") && method !== "put"){
                   response = await axios[method](host + url, config)
               }else{
                 response = await axios[method](host + url,  data,  config );
