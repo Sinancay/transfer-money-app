@@ -121,7 +121,7 @@ function TransferPage() {
     <div>
       <Grid container spacing={2} padding={8} columnSpacing={{ xs: 0, sm: 2, md: 3 }}>
         <Grid item xs={4}> 
-        <h4><strong>Transaction History</strong></h4><br></br>
+        <h4><strong>Transaction Operation</strong></h4><br></br>
           <FormControl fullWidth>
                 <InputLabel id="demo-simple-select-label">Select From Account</InputLabel>
                 <Select
