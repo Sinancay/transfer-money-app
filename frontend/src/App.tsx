@@ -26,10 +26,12 @@ function App() {
     setOpen(true);
   };
 
-    useEffect(() => {
-        var userInfo = localStorage.getItem('userInfo');
+    useEffect(() => {   //Context API check user has token for template activate
+        var userInfo = localStorage.getItem('token');
         if(userInfo !== null){
           setAuthStatus(true);
+          }else{
+            navigate("/login")
           }
       },[]);
 
@@ -133,8 +135,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 
   return (
     <div className="App">
-      <AuthContext.Provider value={{ status: authStatus, loginComplete: loginAuth }}>
-        
+      <AuthContext.Provider value={{ status: authStatus, loginComplete: loginAuth , logoutFunc: logout }}>
              <Box sx={{ display: 'flex' }}>
                  <CssBaseline />
                  <ThemeProvider theme={darkTheme}>

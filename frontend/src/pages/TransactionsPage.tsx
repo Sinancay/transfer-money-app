@@ -2,6 +2,7 @@ import React, { useContext, useEffect } from 'react'
 import {Grid, MenuItem, FormControl, Select, InputLabel } from '@mui/material';
 import DataGridComponent from '../components/DataGridComponent';
 import AuthContext from '../context/auth-context';
+import {  useNavigate } from 'react-router-dom';
 import { GetColumns, AccountModel } from '../models/TransactionModel';
 import { ApiFunction } from '../helpers/ApiFunction';
 import moment from 'moment';
@@ -11,7 +12,8 @@ function TransactionsPage() {
   const [columns, setColumnsData] = React.useState<any>([]);
   const [selectedAccount, setSelectedAccount] = React.useState<any>([]);
   const [accounts, setAccounts] = React.useState<AccountModel[]>([]);
-  const { loginComplete } = useContext(AuthContext); 
+  const { loginComplete, logoutFunc } = useContext(AuthContext); 
+  const navigate = useNavigate();
 
 useEffect(() => {
     if(columns.length === 0){
@@ -22,6 +24,8 @@ useEffect(() => {
      var username = localStorage.getItem('username');
    if(token !== null && username !== null){
       loginComplete(token, username);
+    }else{
+      logoutFunc();
     }
         getAccounts();
   }, []);

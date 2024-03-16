@@ -5,6 +5,7 @@ import DataGridComponent from '../components/DataGridComponent';
 import { GetColumns, AccountModel } from '../models/AccountModel';
 import {ApiFunction} from '../helpers/ApiFunction';
 import { Validation } from '../helpers/Validation';
+import {  useNavigate } from 'react-router-dom';
 import AlertPushNotification from '../helpers/AlertPushNotification';
 import AuthContext from '../context/auth-context';
 import { NumericFormat, NumericFormatProps } from 'react-number-format';
@@ -63,7 +64,8 @@ function AccountPage() {
   const [alertStatus, setAlertStatus] = React.useState({status: false, success: true, message: ""}); 
   const [dialogStatus, setDialogStatus] = React.useState("");
   const [paramModel, setParamModel] = React.useState<any>(); 
-  const { loginComplete } = useContext(AuthContext); 
+  const { loginComplete, logoutFunc } = useContext(AuthContext); 
+  const navigate = useNavigate();
   const [formAccountName, setFormAccountName] = React.useState("");
   const [formAccountBalance, setFormAccountBalance] = React.useState("0");
 
@@ -120,6 +122,8 @@ function AccountPage() {
      var username = localStorage.getItem('username');
    if(token !== null && username !== null){
       loginComplete(token, username);
+    }else{
+      logoutFunc()
     }
         getAccounts();
   }, []);

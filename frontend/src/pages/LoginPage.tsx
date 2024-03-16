@@ -27,8 +27,8 @@ function LoginPage() {
   const navigate = useNavigate();
 
   useEffect(() => {
-        var userInfo = localStorage.getItem('token');
-        if(userInfo !== null){
+        var token = localStorage.getItem('token');
+        if(token !== null){
             navigate("/account");
           }
       },[]);

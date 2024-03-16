@@ -4,6 +4,7 @@ import { AccountModel } from '../models/AccountModel';
 import { ApiFunction } from '../helpers/ApiFunction';
 import AuthContext from '../context/auth-context';
 import moment from 'moment';
+import { useNavigate } from 'react-router-dom';
 import { NumericFormat, NumericFormatProps } from 'react-number-format';
 import { Validation } from '../helpers/Validation';
 import AlertPushNotification from '../helpers/AlertPushNotification';
@@ -45,7 +46,8 @@ function TransferPage() {
   const [amount, setAmount] = React.useState<any>("0");
   const [enable, setEnable] = React.useState(true);
   const [alertStatus, setAlertStatus] = React.useState({status: false, success: true, message: ""}); 
-  const { loginComplete } = useContext(AuthContext); 
+  const { loginComplete, logoutFunc } = useContext(AuthContext); 
+  const navigate = useNavigate();
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
    console.log(parseFloat(event.target.value).toFixed(2))
@@ -57,6 +59,8 @@ function TransferPage() {
      var username = localStorage.getItem('username');
    if(token !== null && username !== null){
       loginComplete(token, username);
+    }else{
+       logoutFunc();
     }
         getFromAccounts();
         getAllAccounts();
@@ -112,6 +116,9 @@ function TransferPage() {
       const response = await ApiFunction("transactions/transfer", {fromadress: fromAccount, toadress: toAccount, amount: amount}, "post", false);
         if(response?.status === 200){
             setAlertStatus({status: true, success: true, message: "Transfer operation is complete please check teransaction status from transaction history page"}); 
+            setTimeout(function(){
+             window.location.reload();
+          }, 2000);
       }else{
         setAlertStatus({status: true, success: false, message: "Transfer is not completed"}); 
       }
