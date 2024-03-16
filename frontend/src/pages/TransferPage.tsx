@@ -91,7 +91,11 @@ function TransferPage() {
   }
 
   async function handleChangeFrom(param: any) {
-    setFormAccounts(param);
+    if(param === toAccount){
+      setAlertStatus({status: true, success: false, message: "Sender transfer account (FROM) and recived transfer account (TO) should be different"}); 
+    }else{
+      setFormAccounts(param);
+    }
   };
 
   async function handleChangeTo(param: any) {
@@ -117,6 +121,7 @@ function TransferPage() {
     <div>
       <Grid container spacing={2} padding={8} columnSpacing={{ xs: 0, sm: 2, md: 3 }}>
         <Grid item xs={4}> 
+        <h4><strong>Transaction History</strong></h4><br></br>
           <FormControl fullWidth>
                 <InputLabel id="demo-simple-select-label">Select From Account</InputLabel>
                 <Select
@@ -143,10 +148,13 @@ function TransferPage() {
                     id="demo-simple-select"
                     value={toAccount}
                     label="Select To Account"
+                    disabled={fromAccount === ""}
                     onChange={(event: any) => handleChangeTo(event.target.value)}
                 >
                     {allAccounts ? allAccounts.map((item: any) =>{
+                      if(item.id !== fromAccount){
                         return  <MenuItem value={item.id}>{item.number} - {item.name}</MenuItem>
+                      }
                     }): ""}
                    
                 </Select>
