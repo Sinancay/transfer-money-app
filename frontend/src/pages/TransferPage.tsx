@@ -111,7 +111,7 @@ function TransferPage() {
   async function transferMoney() {
       const response = await ApiFunction("transactions/transfer", {fromadress: fromAccount, toadress: toAccount, amount: amount}, "post", false);
         if(response?.status === 200){
-            setAlertStatus({status: true, success: true, message: "Transfer is completed"}); 
+            setAlertStatus({status: true, success: true, message: "Transfer operation is complete please check teransaction status from transaction history page"}); 
       }else{
         setAlertStatus({status: true, success: false, message: "Transfer is not completed"}); 
       }

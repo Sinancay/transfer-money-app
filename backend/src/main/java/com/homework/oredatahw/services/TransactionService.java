@@ -35,7 +35,7 @@ public class TransactionService {
             Random r = new Random();
             long number = x + ((long) (r.nextDouble() * (y - x))); // for transaction id generated
             try {
-                if(!(accountService.accountDetails(transaction.getFromadress(), token).getBalance().compareTo(transaction.getAmount()) == 1)){
+                if(!(accountService.accountDetails(transaction.getFromadress(), token).getBalance().compareTo(transaction.getAmount()) == 1)){ // From balance higher than amount validation
                     throw new IllegalArgumentException("Account balance lower than amount");
                 }
                 AccountModel fromModel = accountService.accountDetails(transaction.getFromadress(), token);
@@ -70,8 +70,8 @@ public class TransactionService {
     public boolean validateFields (TransferModel transaction, String token){
         if(transaction.getFromadress().equals(null) || accountService.accountDetails(transaction.getFromadress(), token).equals(null) || // null or valid account UUID
                 transaction.getToadress().equals(null) || accountService.accountDetailsForToTransaction(transaction.getToadress()).equals(null) || // null or valid account UUID
-                transaction.getAmount().equals(null) || (transaction.getFromadress().equals(transaction.getToadress()))){
-            throw new IllegalArgumentException("Need require fields or account balance lower than amount");
+                transaction.getAmount().equals(null) || (transaction.getFromadress().equals(transaction.getToadress()))){ // same account check
+            throw new IllegalArgumentException("Need require fields or same account ");
         }
         return true;
     }
@@ -80,7 +80,7 @@ public class TransactionService {
         UUID userid = UUID.fromString(jwtService.extractUserId(token));
         AccountModel temp = accountService.accountDetails(id, token);
         if(!temp.getUserid().equals(userid)){
-            throw new IllegalArgumentException("Selected account is not authorise");
+            throw new IllegalArgumentException("Selected account is not authorise"); //from account validation authorise
         }else{
             List<TransactionModel> fromTransactions = dBoperation.findAllByFromadress(id);
             List<TransactionModel> toTransactions = dBoperation.findAllByToadress(id);

@@ -58,7 +58,7 @@ public class AccountService {
     }
 
     public void updateAccount(AccountModel account, UUID id, String token) {
-        if(account.getBalance().equals(null) ||  account.getName().equals(null) || id.equals(null)){
+        if(account.getBalance().equals(null) || account.getBalance().equals("") ||  account.getName().equals(null) || id.equals(null) ||  account.getName().equals("") || id.equals("")){
             throw new IllegalArgumentException("Need require fields");
         }
         UUID userid = UUID.fromString(jwtService.extractUserId(token));
@@ -97,7 +97,8 @@ public class AccountService {
     }
 
     public void updateAccountForToTransaction(AccountModel account, UUID id) {  // I have added this method because whitout authorise update account
-        if(account.getBalance().equals(null) ||  account.getName().equals(null) || id.equals(null)){
+        if(account.getBalance().equals(null) ||  account.getName().equals(null) || id.equals(null) ||
+                account.getBalance().equals("") ||  account.getName().equals("") || id.equals("")){
             throw new IllegalArgumentException("Need require fields");
         }
         AccountModel temp = dBoperation.getOne(id);
