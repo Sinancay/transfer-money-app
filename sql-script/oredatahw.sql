@@ -19,15 +19,14 @@ CREATE TABLE accountmodel (
   UpdatedAt timestamp
 );
 
-CREATE TYPE s AS ENUM ('SUCCESS', 'FAILED');
 
 CREATE TABLE transactionmodel ( 
   ID bigint PRIMARY KEY NOT NULL,
-  "From" UUID NOT NULL,
-  "To" UUID NOT NULL,
+  fromadress UUID NOT NULL,
+  toadress UUID NOT NULL,
   Amount numeric,
   TransactionDate timestamp,
-  Status s
+  Status VARCHAR(250)
 );
 
 ALTER TABLE accountmodel
@@ -35,10 +34,10 @@ ADD CONSTRAINT FK_UserId FOREIGN KEY (UserId)
 REFERENCES usermodel (ID);
 
 ALTER TABLE transactionmodel
-ADD CONSTRAINT FK_FromId FOREIGN KEY ("From")
+ADD CONSTRAINT FK_FromId FOREIGN KEY (fromadress)
 REFERENCES accountmodel (ID);
 
 ALTER TABLE transactionmodel
-ADD CONSTRAINT FK_ToId FOREIGN KEY ("To")
+ADD CONSTRAINT FK_ToId FOREIGN KEY (toadress)
 REFERENCES accountmodel (ID);
 
