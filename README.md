@@ -1,4 +1,4 @@
-# Oredata Homework
+# Transfer Money App
 
 ## Description
 
